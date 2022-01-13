@@ -1,0 +1,5 @@
+- update bootstrap
+- update deps
+- gh workflow to build viewer wasm
+- stop using axios
+- unsplash api for images?
