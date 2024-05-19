@@ -12,7 +12,7 @@ const row2 = document.getElementById("new-shaders");
 const waitLoad = (v, key) => {
     const el = document.getElementById(`${key}-viewer-${v.id}`);
     if (el?.contentWindow && el?.contentWindow?.compileShader) {
-        document.getElementById(`viewer-${v.id}`).contentWindow.compileShader(v.frag_shader, v.image_1, v.image_2, v.image_3, v.image_4);
+        document.getElementById(`${key}-viewer-${v.id}`).contentWindow.compileShader(v.frag_shader, v.image_1, v.image_2, v.image_3, v.image_4);
         return true;
     }
     return false;
