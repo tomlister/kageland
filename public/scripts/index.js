@@ -1,7 +1,12 @@
 const res = await fetch("/api/top");
 const top = await res.json();
 
+const res2 = await fetch("/api/new");
+const newShaders = await res2.json();
+
+
 const row = document.getElementById("top-shaders");
+const row2 = document.getElementById("new-shaders");
 
 // hacky
 const waitLoad = (v) => {
@@ -12,6 +17,31 @@ const waitLoad = (v) => {
     }
     return false;
 }
+
+newShaders.forEach(v => {
+    const el = document.createElement("div");
+    el.className = "col-sm-4";
+    el.innerHTML = `<div class="card">
+        <iframe allowtransparency="true" style="background: #000000;" class="card-img-top" id="viewer-${v.id}" src="_viewer.html" width="18rem"></iframe>
+        <div class="card-body">
+        <h5 class="card-title">${v.name}</h5>
+        <div class="react-group" aria-label="Like shader" id="likeButton">
+            <span id="likeButtonIcon" class="material-icons">favorite_border</span>
+            <div id="likeCount">${v.likes}</div>
+        </div>
+        <div class="view-group">
+            <span class="material-icons">visibility</span>
+            <div id="viewCount">${v.views}</div>
+        </div>
+        <br />
+        <a href="/shader?id=${v.id}" class="btn btn-primary">View</a>
+        </div>
+    </div>`;
+    row2.append(el);
+    let i = setInterval(() => {
+        if (waitLoad(v)) clearInterval(i);
+    }, 100)
+});
 
 top.forEach(v => {
     const el = document.createElement("div");

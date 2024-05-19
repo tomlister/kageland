@@ -10,6 +10,7 @@ import (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	router := mux.NewRouter()
 	router.HandleFunc("/api/top", handlers.TopHandler)
+	router.HandleFunc("/api/new", handlers.NewHandler)
 	router.HandleFunc("/api/search", handlers.SearchHandler).Methods("GET")
 	router.HandleFunc("/api/shader", handlers.ShaderPostHandler).Methods("POST")
 	router.HandleFunc("/api/shader", handlers.ShaderGetHandler).Methods("GET")

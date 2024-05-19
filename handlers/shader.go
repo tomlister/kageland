@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/tomlister/kageland/util"
@@ -24,17 +25,18 @@ type ShaderPostRequest struct {
 }
 
 type ShaderDocument struct {
-	ID         string `bson:"id"`
-	Name       string `bson:"name"`
-	AuthorID   string `bson:"author_id"`
-	Anon       bool   `bson:"anon"`
-	FragShader string `bson:"frag_shader"`
-	Image1     string `bson:"image_1"`
-	Image2     string `bson:"image_2"`
-	Image3     string `bson:"image_3"`
-	Image4     string `bson:"image_4"`
-	Likes      int    `bson:"likes"`
-	Views      int    `bson:"views"`
+	ID         string    `bson:"id"`
+	Name       string    `bson:"name"`
+	Created    time.Time `bson:"created"`
+	AuthorID   string    `bson:"author_id"`
+	Anon       bool      `bson:"anon"`
+	FragShader string    `bson:"frag_shader"`
+	Image1     string    `bson:"image_1"`
+	Image2     string    `bson:"image_2"`
+	Image3     string    `bson:"image_3"`
+	Image4     string    `bson:"image_4"`
+	Likes      int       `bson:"likes"`
+	Views      int       `bson:"views"`
 }
 
 type ShaderPostResponse struct {
@@ -147,6 +149,7 @@ func ShaderPostHandler(w http.ResponseWriter, r *http.Request) {
 		ID:         id,
 		Name:       reqData.Name,
 		FragShader: reqData.FragShader,
+		Created:    time.Now(),
 		AuthorID:   "",
 		Anon:       true,
 		Image1:     reqData.Image1,
