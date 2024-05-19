@@ -60,6 +60,7 @@ func init() {
 }
 
 type Game struct {
+	init bool
 	idx  int
 	time int
 }
@@ -70,6 +71,10 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	if !g.init {
+		g.init = true
+		images["screen"] = screen
+	}
 	if shader == nil {
 		msg := "No shader program loaded."
 		ebitenutil.DebugPrint(screen, msg)
