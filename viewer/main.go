@@ -75,6 +75,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.init = true
 		images["screen"] = ebiten.NewImageFromImage(screen)
 	}
+
 	if shader == nil {
 		msg := "No shader program loaded."
 		ebitenutil.DebugPrint(screen, msg)
@@ -92,7 +93,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	op.Images = setImages
 	screen.DrawRectShader(w, h, shader, op)
-	images["screen"].DrawImage(screen, &ebiten.DrawImageOptions{})
+	images["screen"].Deallocate()
+	images["screen"] = ebiten.NewImageFromImage(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
