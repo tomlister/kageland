@@ -19,9 +19,10 @@ const (
 )
 
 var (
-	shader    *ebiten.Shader
-	setImages [4]*ebiten.Image
-	images    map[string]*ebiten.Image
+	shader        *ebiten.Shader
+	setImagesKeys [4]string
+	setImages     [4]*ebiten.Image
+	images        map[string]*ebiten.Image
 )
 
 func init() {
@@ -60,9 +61,10 @@ func init() {
 }
 
 type Game struct {
-	init bool
-	idx  int
-	time int
+	init   bool
+	idx    int
+	time   int
+	lw, lh int
 }
 
 func (g *Game) Update() error {
@@ -83,6 +85,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 
 	w, h := screen.Bounds().Dx(), screen.Bounds().Dy()
+
+	if g.lw != w || g.lh != h {
+		// resize detected
+		g.lw = w
+		g.lh = h
+		images["screen"].Deallocate()
+		images["screen"] = ebiten.NewImageFromImage(screen)
+		for i, _ := range setImages {
+			setImages[i] = images[setImagesKeys[i]]
+		}
+	}
 	cx, cy := ebiten.CursorPosition()
 
 	op := &ebiten.DrawRectShaderOptions{}
@@ -93,8 +106,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	op.Images = setImages
 	screen.DrawRectShader(w, h, shader, op)
-	images["screen"].Deallocate()
-	images["screen"] = ebiten.NewImageFromImage(screen)
+	images["screen"].DrawImage(screen, &ebiten.DrawImageOptions{})
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -111,6 +123,11 @@ func compileShader(this js.Value, args []js.Value) any {
 	}
 	shader = s
 	// sketchy
+	setImagesKeys[0] = args[1].String()
+	setImagesKeys[1] = args[2].String()
+	setImagesKeys[2] = args[3].String()
+	setImagesKeys[3] = args[4].String()
+
 	setImages[0] = images[args[1].String()]
 	setImages[1] = images[args[2].String()]
 	setImages[2] = images[args[3].String()]
