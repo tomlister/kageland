@@ -73,7 +73,7 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	if !g.init {
 		g.init = true
-		images["screen"] = screen
+		images["screen"] = ebiten.NewImageFromImage(screen)
 	}
 	if shader == nil {
 		msg := "No shader program loaded."
@@ -92,6 +92,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	op.Images = setImages
 	screen.DrawRectShader(w, h, shader, op)
+	images["screen"].DrawImage(screen, &ebiten.DrawImageOptions{})
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
