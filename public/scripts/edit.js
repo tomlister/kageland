@@ -106,7 +106,13 @@ const runShader = () => {
 	}
 }
 
+const resetTime = () => {
+	document.querySelector("#viewer").contentWindow.resetTime()
+}
+
 document.querySelector("#runCode").addEventListener('click', runShader)
+
+document.querySelector("#resetTime").addEventListener('click', resetTime)
 
 document.querySelector("#shareCode").addEventListener('click', () => {
 	if (!this.disabled) {

@@ -23,6 +23,7 @@ var (
 	setImagesKeys [4]string
 	setImages     [4]*ebiten.Image
 	images        map[string]*ebiten.Image
+	game          *Game
 )
 
 func init() {
@@ -113,6 +114,15 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
 }
 
+func (g *Game) setTime(v int) {
+	g.time = v
+}
+
+func resetTime(this js.Value, args []js.Value) any {
+	game.setTime(0)
+	return nil
+}
+
 func compileShader(this js.Value, args []js.Value) any {
 	if shader != nil {
 		shader.Deallocate()
@@ -137,9 +147,13 @@ func compileShader(this js.Value, args []js.Value) any {
 
 func main() {
 	js.Global().Set("compileShader", js.FuncOf(compileShader))
+	js.Global().Set("resetTime", js.FuncOf(resetTime))
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Shader (Ebitengine Demo)")
-	if err := ebiten.RunGame(&Game{}); err != nil {
+
+	game = &Game{}
+
+	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
 }

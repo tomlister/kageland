@@ -38,7 +38,13 @@ const runShader = () => {
 	}
 }
 
+const resetTime = () => {
+	document.querySelector("#viewer").contentWindow.resetTime()
+}
+
 document.querySelector("#runCode").addEventListener('click', runShader)
+
+document.querySelector("#resetTime").addEventListener('click', resetTime)
 
 const searchParams = new URLSearchParams(window.location.search)
 const params = Object.fromEntries(searchParams.entries())

@@ -150,6 +150,25 @@
 	color: white;
 }
 
+/* I will bother about reusing later... */
+
+#resetTime {
+	padding-right: 0.5rem;
+	color: white;
+	background-color: rgb(66, 70, 75);
+	border: 1px solid #a6a6a6;
+	border-top: none;
+	border-radius: .5rem;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	transition: 0.1s cubic-bezier(.17,.67,.83,.67);
+}
+
+#resetTime:hover {
+	background-color: rgba(66,70,75,0.5);
+	color: white;
+}
+
 #reportCode {
 	padding-right: 0.5rem;
 	color: #622b3e;
